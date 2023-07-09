@@ -94,3 +94,6 @@ class PyComSQLQueryBuilder:
         self.params = params
 
         return self.query, self.params
+
+
+__all__ = ['PyComSQLQueryBuilder']
