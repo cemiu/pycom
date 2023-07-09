@@ -4,9 +4,6 @@ from setuptools import setup, find_packages
 with open('pycom/version.txt') as f:
     version = f.read().strip()
 
-with open('README.md') as f:
-    long_description = f.read()
-
 extras_require = {
     'flask': ['Flask'],
     'flask-caching': ['Flask-Caching'],
