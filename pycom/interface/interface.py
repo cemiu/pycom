@@ -4,8 +4,12 @@ from typing import List
 import pandas as pd
 
 import pycom.interface._find_helper as fh
-from pycom.sql.query_builder import PyComSQLQueryBuilder
+from pycom.interface.query_helper import query_database
 from pycom.util.format_util import user_path
+
+
+# supress SettingWithCopyWarning from pandas
+pd.options.mode.chained_assignment = None  # default='warn'
 
 
 class PyCom:
@@ -38,6 +42,11 @@ class PyCom:
             has_substrate: bool = None,
             has_ptm: bool = None,
             has_pbd: bool = None,
+            disease: str = None,
+            disease_id: str = None,
+            has_disease: bool = None,
+            cofactor: str = None,
+            cofactor_id: str = None,
     ) -> pd.DataFrame:
         raise NotImplementedError('Implementation at bottom of file')
 
@@ -54,9 +63,9 @@ class PyCom:
         assert len(df) <= max_load, f'Attempting to load {len(df)} matrices, max_load is {max_load}. ' \
                                     f'Consider using PyCom.paginate(), or increasing max_load parameter'
 
-        cml = fh.CoevolutionMatrixLoader(self.file_matrix)
+        cml = fh.CoevolutionMatrixLoader(self.mat_path)
 
-        df['coevolution_matrix'] = df['sequence'].apply(lambda x: cml.load_coevolution_matrix(x))
+        df['matrix'] = df['sequence'].apply(lambda x: cml.load_coevolution_matrix(x))
 
         return df
 
@@ -66,13 +75,13 @@ class PyCom:
             raise ValueError(f'Pagination starts at 1, not {page}')
         return df.iloc[(page - 1) * per_page:page * per_page]
 
-    @property
-    def file_matrix(self):
-        return self.mat_path
+    def get_disease_list(self) -> pd.DataFrame:
+        query = "SELECT diseaseId, diseaseName FROM disease"
+        return query_database(query, self.db_path)
 
-    @property
-    def file_database(self):
-        return self.db_path
+    def get_cofactor_list(self) -> pd.DataFrame:
+        query = "SELECT cofactorId, cofactorName FROM cofactor"
+        return query_database(query, self.db_path)
 
 
 def _pycom_find(
@@ -89,9 +98,9 @@ def _pycom_find(
     # build the query
     query, params = fh.build_query_from_constraints(**constraints)
 
-    query_result: pd.DataFrame = fh.query_db(db_path=self.file_database, query=query, params=params)
+    query_result: pd.DataFrame = fh.query_db(db_path=self.db_path, query=query, params=params)
 
-    query_result['coevolution_matrix'] = pd.Series([None] * len(query_result))
+    query_result['matrix'] = pd.Series([None] * len(query_result), dtype='object')
 
     return query_result
 

@@ -1,5 +1,4 @@
 
-# from enum import StrEnum  # only available in Python 3.11+
 from enum import Enum
 
 
@@ -27,9 +26,14 @@ class ProteinParams(str, Enum):
 
     HAS_PDB = 'has_pdb'
 
+    DISEASE = 'disease'
+    DISEASE_ID = 'disease_id'
+    HAS_DISEASE = 'has_disease'
+
+    COFACTOR = 'cofactor'
+    COFACTOR_ID = 'cofactor_id'
+
     # cofactors
-    # disease
-    # has_pbd
 
     # keywords?
     # substrates / rheaIDs?

@@ -1,7 +1,7 @@
 from functools import partial
 
 from pycom.selector.selector_params import ProteinParams
-from pycom.sql.constraints_utils import organism_constraint, class_constraint, class_param, to_int, to_float, to_bool
+from pycom.sql.constraints_utils import *
 
 """This class defines the constraints for the query builder
 
@@ -69,6 +69,7 @@ _constraints_struct = {
     },
 }
 
+
 _constraints_special = {
     ProteinParams.ORGANISM: {  # organism
         'constraint': organism_constraint,
@@ -81,6 +82,26 @@ _constraints_special = {
     ProteinParams.ENZYME: {  # Enzyme class
         'constraint': partial(class_constraint, entry_type='enzyme'),
         'param': lambda x: class_param(x),
+    },
+    ProteinParams.DISEASE: {  # disease name
+        'constraint': disease_constraint,
+        'param': lambda x: f'%{x}%',  # add wildcards
+    },
+    ProteinParams.DISEASE_ID: {  # disease id
+        'constraint': disease_id_constraint,
+        'param': lambda x: partial(to_str, entry=ProteinParams.DISEASE_ID, starts_with='DI-')(x),
+    },
+    ProteinParams.HAS_DISEASE: {  # has disease
+        'constraint': has_disease_constraint,
+        'param': partial(to_bool, entry=ProteinParams.HAS_DISEASE)
+    },
+    ProteinParams.COFACTOR: {  # cofactor name
+        'constraint': cofactor_constraint,
+        'param': lambda x: f'%{x}%',  # add wildcards
+    },
+    ProteinParams.COFACTOR_ID: {  # cofactor id
+        'constraint': cofactor_id_constraint,
+        'param': lambda x: partial(to_str, entry=ProteinParams.COFACTOR_ID, starts_with='CHEBI:')(x),
     },
 }
 

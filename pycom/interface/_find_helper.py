@@ -58,6 +58,8 @@ def query_db(db_path, query, params):
     result: list = c.fetchall()
     result: pd.DataFrame = pd.DataFrame(result, columns=PyComSQLQueryBuilder.columns)
 
+    conn.close()
+
     return result
 
 
@@ -75,8 +77,8 @@ class CoevolutionMatrixLoader:
         """
         md5 = md5_hash(sequence)
 
-        # print(type(self.mat_db[md5]))
-        # print(type(self.mat_db[md5][:]))
-
-        return self.mat_db[md5][:]
-        # return pd.DataFrame(self.mat_db[md5][:])
+        try:
+            return self.mat_db[md5][:]
+            # return pd.DataFrame(self.mat_db[md5][:])
+        except KeyError:
+            return None

@@ -6,6 +6,48 @@ organism_constraint = lambda _: '''
         WHERE   organism.taxonomy LIKE ?
     )'''
 
+
+disease_id_constraint = lambda _: '''
+    entry.entryId IN (
+        SELECT  disease_entry.entryId
+        FROM    disease_entry
+        WHERE   (disease_entry.diseaseId = ?)
+    )'''
+
+
+disease_constraint = lambda _: '''
+    entry.entryId IN (
+        SELECT  disease_entry.entryId
+        FROM    disease_entry
+        JOIN    disease ON disease_entry.diseaseId = disease.diseaseId
+        WHERE   lower(disease.diseaseName) LIKE lower(?)
+    )'''
+
+
+has_disease_constraint = lambda has_disease: f'''
+    entry.entryId {'NOT' if not has_disease else ''} IN (
+        SELECT  disease_entry.entryId
+        FROM    disease_entry
+        WHERE ? OR TRUE
+    )'''
+
+cofactor_id_constraint = lambda _: '''
+    entry.entryId IN (
+        SELECT  cofactor_entry.entryId
+        FROM    cofactor_entry
+        WHERE   (cofactor_entry.cofactorId = ?)
+    )'''
+
+
+cofactor_constraint = lambda _: '''
+    entry.entryId IN (
+        SELECT  cofactor_entry.entryId
+        FROM    cofactor_entry
+        JOIN    cofactor ON cofactor_entry.cofactorId = cofactor.cofactorId
+        WHERE   lower(cofactor.cofactorName) LIKE lower(?)
+    )'''
+
+
 _CATH_ENZYME_ERROR = 'CATH/Enzyme class must be in format: 1.2.3.4 or 1.2.*.*'
 
 
@@ -59,6 +101,14 @@ def class_constraint(arg, entry_type):
     return cath_query
 
 
+def to_str(arg, entry, starts_with=None):
+    """Returns a string, throws an error if starts_with is specified and the string does not start with it"""
+    if starts_with is not None:
+        assert arg.startswith(starts_with), f'{entry} must follow format: {starts_with}00000'
+
+    return str(arg)
+
+
 def to_int(arg, entry):
     """Converts a string to an integer if possible"""
     try:
@@ -82,6 +132,9 @@ _BOOL_VALUES = _BOOL_TRUE_VALUES | _BOOL_FALSE_VALUES
 
 def to_bool(arg, entry):
     """Converts a string to a boolean if possible"""
+    if type(arg) == bool:
+        return arg
+
     arg = arg.lower()
 
     assert arg in _BOOL_VALUES, f'{entry} must be a boolean [true/false, yes/no, 0/1]'
