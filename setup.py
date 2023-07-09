@@ -4,9 +4,6 @@ from setuptools import setup, find_packages
 with open('pycom/version.txt') as f:
     version = f.read().strip()
 
-with open('README.md') as f:
-    long_description = f.read()
-
 extras_require = {
     'flask': ['Flask'],
     'flask-caching': ['Flask-Caching'],
@@ -17,11 +14,11 @@ setup(
     name='pycom',
     version=version,
     description='Library for interacting with the Pycom database of coevolution matrices of proteins',
-    long_description=long_description,
+    long_description='#TODO',
     long_description_content_type='text/markdown',
-    author='Your Name',
-    author_email='your.email@example.com',
-    url='https://github.com/yourusername/pycom',
+    author='Phil',
+    author_email='phil@example.com',
+    url='https://github.com/cemiu/pycom',
     packages=find_packages(),
     install_requires=[
         'pandas',
