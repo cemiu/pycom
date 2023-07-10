@@ -1,4 +1,5 @@
 import sqlite3
+from typing import Optional
 
 import h5py
 import pandas as pd
@@ -71,7 +72,7 @@ class CoevolutionMatrixLoader:
         self.matrix_path = matrix_path
         self.mat_db: h5py.File = h5py.File(matrix_path, 'r')
 
-    def load_coevolution_matrix(self, sequence: str) -> pd.DataFrame:
+    def load_coevolution_matrix(self, sequence: str) -> Optional[pd.DataFrame]:
         """
         Load a coevolution matrix from an HDF5 file
         """

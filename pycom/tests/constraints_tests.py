@@ -1,3 +1,4 @@
+# noinspection PyPackageRequirements
 import pytest
 
 from pycom.sql.constraints_utils import class_param

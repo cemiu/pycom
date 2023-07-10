@@ -1,7 +1,6 @@
 import hashlib
 import os
-from collections.abc import Callable, Iterable
-from typing import Any, Optional
+from typing import Optional
 import random
 import string
 
@@ -18,27 +17,6 @@ def human_num(num):
         magnitude += 1
         num /= 1000.0
     return '{}{}'.format('{:f}'.format(num).rstrip('0').rstrip('.'), ['', 'K', 'M', 'B', 'T'][magnitude])
-
-
-def round_elements(
-        iterable: Iterable,
-        round_to: int = 2,
-        reduce: Callable[[Iterable], Any] | None = None,
-) -> Iterable:
-    """Takes any iterable of arbitrary elements and rounds all floating point numbers.
-
-    By default, the return value is a list, but this can be changed by passing a different reduce function.
-    If the reduce function is None, the return value is a list.
-
-    Args:
-        :param iterable: the iterable to round
-        :param round_to: the number of decimal places to round to (default: 2)
-        :param reduce: the reduce function to use to reduce the map object (default: list)
-    """
-    rounded = map(lambda elem: round(elem, round_to) if isinstance(elem, float) else elem, iterable)
-    if reduce is None:
-        return list(rounded)
-    return reduce(rounded)
 
 
 def generate_random_string(n: int) -> str:
@@ -64,7 +42,7 @@ def md5_hash(s: str) -> str:
     return hashlib.md5(s.encode()).hexdigest()
 
 
-def user_path(s: str) -> str | None:
+def user_path(s: str) -> Optional[str]:
     """Returns the path with user home directory expanded."""
     if s is None:
         return None

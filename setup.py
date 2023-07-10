@@ -1,4 +1,4 @@
-import os
+
 from setuptools import setup, find_packages
 
 with open('pycom/version.txt') as f:
@@ -14,10 +14,8 @@ setup(
     name='pycom',
     version=version,
     description='Library for interacting with the Pycom database of coevolution matrices of proteins',
-    long_description='#TODO',
-    long_description_content_type='text/markdown',
     author='Phil',
-    author_email='phil@example.com',
+    author_email='resale-greener.0u@icloud.com',
     url='https://github.com/cemiu/pycom',
     packages=find_packages(),
     install_requires=[

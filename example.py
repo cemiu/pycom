@@ -5,14 +5,14 @@ pyc = PyCom(db_path='~/docs/pycom.db', mat_path='~/docs/pycom.mat')
 
 
 # Query the database by passing a dictionary of conditions
-entries = pyc.find({
+entries_a = pyc.find({
     ProteinParams.ENZYME: '3.*.*.*',
     ProteinParams.DISEASE: 'cancer',  # string search, case-insensitive
 })
 
 
 # Alternatively, query the database by passing keyword arguments
-entries = pyc.find(
+entries_b = pyc.find(
     cofactor='FAD',  # string search, case-insensitive
     has_ptm=True,
     has_disease=True,
