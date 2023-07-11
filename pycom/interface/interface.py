@@ -3,6 +3,7 @@ from typing import Optional
 import pandas as pd
 
 import pycom.interface._find_helper as fh
+from pycom.selector import MatrixFormat
 from pycom.interface.query_helper import query_database
 from pycom.util.format_util import user_path
 
@@ -67,6 +68,7 @@ class PyCom:
             max_turn: Optional[float] = None,
             min_strand: Optional[float] = None,
             max_strand: Optional[float] = None,
+            organism_id: Optional[str] = None,
             organism: Optional[str] = None,
             cath: Optional[str] = None,
             enzyme: Optional[str] = None,
@@ -100,19 +102,23 @@ class PyCom:
         :param sequence: The amino acid sequence of protein to search for. (full match)
         :param min_length: Minimum number of residues.
         :param max_length: Maximum number of residues.
-        :param min_helix / max_helix: Min/Max percentage of helical structure in the protein.
-        :param min_turn / max_turn: Min/Max percentage of turn structure in the protein.
-        :param min_strand / max_strand: Min/Max percentage of beta strand structure in the protein.
-        :param organism: Taxonomic name of the genus / species of the protein. (get_organism_list())
+        :param min_helix: Min percentage of helical structure in the protein.
+        :param max_helix: Max percentage of helical structure in the protein.
+        :param min_turn: Min percentage of turn structure in the protein.
+        :param max_turn: Max percentage of turn structure in the protein.
+        :param min_strand: Min percentage of beta strand structure in the protein.
+        :param max_strand: Max percentage of beta strand structure in the protein.
+        :param organism_id: NCBI Taxonomy ID of the genus / species of the protein. (get_organism_list())
+        :param organism: Taxonomic name of the genus / species of the protein. (case-insensitive, get_organism_list())
         :param cath: CATH classification of the protein ( '3.40.50.360' or '3.40.*.*' or '3.*' ).
         :param enzyme: Enzyme Commission number of the protein. ( '3.40.50.360' or '3.40.*.*' or '3.*' ).
         :param has_substrate: Whether the protein has a known substrate. (True/False)
         :param has_ptm: Whether the protein has a known post-translational modification. (True/False)
         :param has_pbd: Whether the protein has a known PDB structure. (True/False)
-        :param disease: The disease associated with the protein. (name of disease, case insensitive [e.g 'cancer'])
+        :param disease: The disease associated with the protein. (name of disease, case-insensitive [e.g 'cancer'])
         :param disease_id: The ID of the disease associated with the protein. ('DI-00001', get_disease_list()
         :param has_disease: Whether the protein is associated with a disease. (True/False)
-        :param cofactor: The cofactor associated with the protein. (name of cofactor, case insensitive [e.g 'Zn(2+)'])
+        :param cofactor: The cofactor associated with the protein. (name of cofactor, case-insensitive [e.g 'Zn(2+)'])
         :param cofactor_id: The ID of the cofactor associated with the protein. ('CHEBI:00001', get_cofactor_list())
         :return: A pandas DataFrame containing the proteins that match the given criteria.
         """
@@ -121,7 +127,8 @@ class PyCom:
     def load_matrices(
             self,
             df: pd.DataFrame,
-            max_load: int = 1000
+            max_load: int = 1000,
+            mat_format: MatrixFormat = MatrixFormat.NUMPY
     ) -> pd.DataFrame:
         """
         Load the coevolution matrices into memory
@@ -139,7 +146,7 @@ class PyCom:
         assert len(df) <= max_load, f'Attempting to load {len(df)} matrices, max_load is {max_load}. ' \
                                     f'Consider using PyCom.paginate(), or increasing max_load parameter'
 
-        cml = fh.CoevolutionMatrixLoader(self.mat_path)
+        cml = fh.CoevolutionMatrixLoader(self.mat_path, mat_format=mat_format)
 
         df['matrix'] = df['sequence'].apply(lambda x: cml.load_coevolution_matrix(x))
 
@@ -180,6 +187,16 @@ class PyCom:
             List[str]: A list of cofactors.
         """
         query = "SELECT cofactorId, cofactorName FROM cofactor"
+        return query_database(query, self.db_path)
+
+    def get_organism_list(self):
+        """
+        Retrieves the list of all organisms in the database.
+
+        Returns:
+            List[str]: A list of organisms.
+        """
+        query = "SELECT organismId, nameScientific, nameCommon, taxonomy FROM organism"
         return query_database(query, self.db_path)
 
 

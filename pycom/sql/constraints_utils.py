@@ -3,7 +3,7 @@ organism_constraint = lambda _: '''
     entry.organismId IN (
         SELECT  organism.organismId
         FROM    organism
-        WHERE   organism.taxonomy LIKE ?
+        WHERE   organism.taxonomyFull LIKE ?
     )'''
 
 

@@ -67,13 +67,17 @@ _constraints_struct = {
         'constraint': lambda _: 'entry.hasPDB = ?',
         'param': partial(to_bool, entry=ProteinParams.HAS_PDB)
     },
+    ProteinParams.ORGANISM_ID: {  # organism id (NCBI taxonomy id)
+        'constraint': lambda _: 'entry.organismId = ?',
+        'param': partial(to_int, entry=ProteinParams.ORGANISM_ID),
+    },
 }
 
 
 _constraints_special = {
-    ProteinParams.ORGANISM: {  # organism
+    ProteinParams.ORGANISM: {  # protein name
         'constraint': organism_constraint,
-        'param': lambda x: f'%:{x}:%',  # add wildcards
+        'param': lambda x: f'%{x}%'.lower(),  # add wildcards
     },
     ProteinParams.CATH: {  # CATH class
         'constraint': partial(class_constraint, entry_type='cath'),

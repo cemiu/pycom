@@ -4,7 +4,7 @@ from typing import Optional
 import h5py
 import pandas as pd
 
-from pycom.selector.selector_params import ProteinParams
+from pycom.selector import ProteinParams, MatrixFormat
 from pycom.sql.query_builder import PyComSQLQueryBuilder
 from pycom.util.format_util import md5_hash
 
@@ -68,9 +68,14 @@ class CoevolutionMatrixLoader:
     """
     A class that loads coevolution matrices from an HDF5 file
     """
-    def __init__(self, matrix_path):
+    def __init__(
+            self,
+            matrix_path,
+            mat_format: MatrixFormat = MatrixFormat.NUMPY
+    ):
         self.matrix_path = matrix_path
         self.mat_db: h5py.File = h5py.File(matrix_path, 'r')
+        self.mat_formatter = mat_format
 
     def load_coevolution_matrix(self, sequence: str) -> Optional[pd.DataFrame]:
         """
@@ -79,7 +84,6 @@ class CoevolutionMatrixLoader:
         md5 = md5_hash(sequence)
 
         try:
-            return self.mat_db[md5][:]
-            # return pd.DataFrame(self.mat_db[md5][:])
+            return self.mat_formatter(self.mat_db[md5][:])
         except KeyError:
             return None

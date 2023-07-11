@@ -14,6 +14,7 @@ _queried_columns_map = {
     'entryId': 'uniprot_id',
     'neff': 'neff',
     'sequenceLength': 'sequence_length',
+    'sequence': 'sequence',
     'organismId': 'organism_id',
     'structHelix': 'helix_frac',
     'structTurn': 'turn_frac',
@@ -21,7 +22,6 @@ _queried_columns_map = {
     'hasPTM': 'has_ptm',
     'hasPDB': 'has_pdb',
     'hasSubstrate': 'has_substrate',
-    'sequence': 'sequence',
 }
 
 

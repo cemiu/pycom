@@ -1,5 +1,4 @@
-from pycom import PyCom
-from pycom.selector.selector_params import ProteinParams
+from pycom import PyCom, ProteinParams
 
 pyc = PyCom(db_path='~/docs/pycom.db', mat_path='~/docs/pycom.mat')
 
@@ -17,6 +16,58 @@ entries_b = pyc.find(
     has_ptm=True,
     has_disease=True,
 )
+
+"""
+Supported parameters:
+            uniprot_id: Optional[str] = None,
+            sequence: Optional[str] = None,
+            min_length: Optional[int] = None,
+            max_length: Optional[int] = None,
+            min_helix: Optional[float] = None,
+            max_helix: Optional[float] = None,
+            min_turn: Optional[float] = None,
+            max_turn: Optional[float] = None,
+            min_strand: Optional[float] = None,
+            max_strand: Optional[float] = None,
+            organism: Optional[str] = None,
+            cath: Optional[str] = None,
+            enzyme: Optional[str] = None,
+            has_substrate: Optional[bool] = None,
+            has_ptm: Optional[bool] = None,
+            has_pbd: Optional[bool] = None,
+            disease: Optional[str] = None,
+            disease_id: Optional[str] = None,
+            has_disease: Optional[bool] = None,
+            cofactor: Optional[str] = None,
+            cofactor_id: Optional[str] = None,
+"""
+
+# param list with descriptions
+"""
+Supported parameters:
+    uniprot_id: The UniProt ID of the protein.
+    sequence: The amino acid sequence of protein to search for. (full match)
+    min_length: The minimum length of the protein.
+    max_length: The maximum length of the protein.
+    min_helix: The minimum percentage of helical secondary structure.
+    max_helix: The maximum percentage of helical secondary structure.
+    min_turn: The minimum percentage of turn secondary structure.
+    max_turn: The maximum percentage of turn secondary structure.
+    min_strand: The minimum percentage of strand secondary structure.
+    max_strand: The maximum percentage of strand secondary structure.
+    organism: The organism of the protein.
+    organism_id: The ID of the organism.
+    cath: The CATH classification of the protein.
+    enzyme: The EC number of the protein.
+    has_substrate: Whether the protein has a substrate.
+    has_ptm: Whether the protein has a post-translational modification.
+    has_pbd: Whether the protein has a PDB structure.
+    disease: The name of the disease.
+    disease_id: The ID of the disease.
+    has_disease: Whether the protein has a disease.
+    cofactor: The name of the cofactor.
+    cofactor_id: The ID of the cofactor.
+"""
 
 
 # Get the lists of available cofactors and diseases
