@@ -4,9 +4,20 @@ from typing import Optional
 import h5py
 import pandas as pd
 
+from warnings import warn
+
 from pycom.selector import ProteinParams, MatrixFormat
 from pycom.sql.query_builder import PyComSQLQueryBuilder
 from pycom.util.format_util import md5_hash
+
+_unconstrained_find_warning = True
+
+
+def warn_unconstrained_find():
+    global _unconstrained_find_warning
+    if _unconstrained_find_warning:
+        warn('No constraints were passed to find(). This will return all proteins in the database.')
+        _unconstrained_find_warning = False
 
 
 def get_valid_find_params(
@@ -23,8 +34,7 @@ def get_valid_find_params(
         constraint_dict = kwargs
 
     if constraint_dict == {}:
-        import warnings
-        warnings.warn('Calling PyCom.find() without constraints returns all proteins, this may be slow')
+        warn_unconstrained_find()
 
     valid_keys = set(ProteinParams)
     for key in constraint_dict:  # check that all keys are valid
