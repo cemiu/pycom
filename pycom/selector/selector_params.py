@@ -1,6 +1,7 @@
 
 from enum import Enum
 
+
 class ProteinParams(str, Enum):
     """Selector parameters for proteins"""
     ID = 'uniprot_id'
