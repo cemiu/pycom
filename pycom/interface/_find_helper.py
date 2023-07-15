@@ -1,5 +1,5 @@
 import sqlite3
-from typing import Optional
+from typing import Optional, Callable
 
 import h5py
 import pandas as pd
@@ -21,12 +21,17 @@ def warn_unconstrained_find():
 
 
 def get_valid_find_params(
+        remote: bool,
         constraint_dict: dict = None,
         **kwargs
 ):
     """
     Validate that the parameters passed to find() are valid and return a dictionary of the parameters
     """
+    if not remote:
+        assert {'page', 'per_page', 'matrix', 'matrix_format'}.isdisjoint(kwargs.keys()), \
+            'page, per_page, matrix and matrix_format are invalid for local queries (only valid for remote queries)'
+
     # if no arguments are passed, return all proteins
     assert not (constraint_dict is not None and kwargs != {}), 'Use either a dictionary or keywords, not both'
 
@@ -85,7 +90,7 @@ class CoevolutionMatrixLoader:
     ):
         self.matrix_path = matrix_path
         self.mat_db: h5py.File = h5py.File(matrix_path, 'r')
-        self.mat_formatter = mat_format
+        self.mat_formatter: Callable = mat_format
 
     def load_coevolution_matrix(self, sequence: str) -> Optional[pd.DataFrame]:
         """

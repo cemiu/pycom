@@ -20,7 +20,8 @@ setup(
     install_requires=[
         'pandas',
         'numpy',
-        'h5py'
+        'h5py',
+        'requests',
     ],
     extras_require=extras_require,
     python_requires='>=3.8',

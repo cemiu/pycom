@@ -34,6 +34,12 @@ pyc = PyCom(db_path=pycom_db_path, mat_path=pycom_mat_path)
 valid_protein_params = set(ProteinParams)
 
 
+@app.route('/api/', methods=['GET'])
+def landing():
+    raise AssertionError('/api is not an endpoint. Try /api/find, /api/alignments, /api/get-disease-list, '
+                         '/api/get-cofactor-list, or /api/get-organism-list')
+
+
 @app.route('/api/find', methods=['GET'])
 @ValidateParameters()
 def find(
@@ -43,9 +49,9 @@ def find(
         # has_disease, cofactor, cofactor_id, has_cofactor
 
         # Output parameters:
-        # matrix, page, page_size
+        # matrix, page, per_page
         page: int = Query(1),
-        page_size: int = Query(default=10, min_int=1, max_int=100)
+        per_page: int = Query(default=10, min_int=1, max_int=100)
 ):
     data = flask.request.args.to_dict()
 
@@ -57,19 +63,19 @@ def find(
     # parse parameters
     load_matrices = to_bool(data.pop('matrix', False), entry='matrix parameter')
     page = to_int(data.pop('page', page), entry='page parameter')
-    page_size = to_int(data.pop('page_size', page_size), entry='page_size parameter')
+    per_page = to_int(data.pop('per_page', per_page), entry='per_page parameter')
 
     # validate that no invalid parameters are passed
     invalid_params = set(data) - valid_protein_params
     assert not invalid_params, f'Invalid parameters: {", ".join(invalid_params)}'
 
     if load_matrices:
-        assert page_size <= 10, 'page_size cannot be larger than 10 when loading matrices'
+        assert per_page <= 10, 'per_page cannot be larger than 10 when loading matrices'
 
     # Request validated, now build the response #
 
     entries = pyc.find(data)  # find entries matching the constraints
-    selection = pyc.paginate(entries, page=page, per_page=page_size)
+    selection = pyc.paginate(entries, page=page, per_page=per_page)
 
     if load_matrices:
         selection = pyc.load_matrices(selection, mat_format=MatrixFormat.JSON)
@@ -82,9 +88,9 @@ def find(
     response = flask.jsonify({
         'results': selection.to_dict(orient='records'),
         'page': page,
-        'total_pages': len(entries) // page_size + 1,
+        'total_pages': len(entries) // per_page + 1,
         'result_count': len(entries),
-        'showing': f'{(page - 1) * page_size + 1}-{min(page * page_size, len(entries))}'
+        'showing': f'{(page - 1) * per_page + 1}-{min(page * per_page, len(entries))}'
     })
 
     if load_matrices:

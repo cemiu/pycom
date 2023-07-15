@@ -85,6 +85,9 @@ def class_constraint(arg, entry_type):
     assert entry_type in ['cath', 'enzyme'], 'Entry type must be either cath or enzyme'
     assert type(arg) == list, 'Param should be pre-processed by _class_param'
 
+    if len(arg) == 0:
+        return '0=0'
+
     default_cath_query = f'''entry.entryId IN (
         SELECT  {entry_type}_class.entryId
         FROM    {entry_type}_class

@@ -49,9 +49,3 @@ def user_path(s: str) -> Optional[str]:
     if s.startswith('~'):
         return os.path.expanduser(s)
     return s
-
-
-# if __name__ == '__main__':
-#     test_str = "\nSELECT\n    entry.entryId\nFROM\n    entry\nWHERE (\n    1=1\n)\n"
-#     print(strip_whitespace(test_str))
-
