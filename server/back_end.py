@@ -7,7 +7,7 @@ from flask_parameter_validation import ValidateParameters, Query
 from werkzeug.security import safe_join
 
 from pycom import PyCom, ProteinParams
-from pycom.interface import _find_helper
+from pycom.interface import _find_helper  # noqa
 from pycom.selector import MatrixFormat
 from pycom.sql.constraints_utils import to_bool, to_int
 
@@ -24,7 +24,7 @@ app.json.compact = False
 
 # set up caching
 cache = Cache(app)
-_find_helper.query_db = cache.memoize(timeout=360, cache_none=True)(_find_helper.query_db)
+_find_helper.query_db = cache.memoize(cache_none=True)(_find_helper.query_db)
 
 pycom_db_path = os.environ.get('PYCOM_DB_PATH', '~/docs/pycom.db')
 pycom_mat_path = os.environ.get('PYCOM_MAT_PATH', '~/docs/pycom.mat')
@@ -45,7 +45,7 @@ def landing():
 def find(
         # Search parameters:
         # uniprot_id, sequence, min_length, max_length, min_helix, max_helix, min_turn, max_turn, min_strand,
-        # max_strand, organism_id, organism, cath, enzyme, has_substrate, has_ptm, has_pbd, disease, disease_id,
+        # max_strand, organism_id, organism, cath, enzyme, has_substrate, has_ptm, has_pdb, disease, disease_id,
         # has_disease, cofactor, cofactor_id, has_cofactor
 
         # Output parameters:

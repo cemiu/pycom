@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 
 from pycom.interface import PyCom
+from pycom.interface.data_loader import PyComDataLoader
 from pycom.selector import MatrixFormat
 from typing import Dict
 
@@ -27,6 +28,7 @@ class PyComRemote(PyCom):
         organism_list = pyc.get_organism_list()
 
     """
+
     def __init__(self, remote: bool = True):
         self.base_url = 'https://pycom.brunel.ac.uk/api'
 
@@ -155,3 +157,6 @@ class PyComRemote(PyCom):
     def load_matrices(*_, **__) -> pd.DataFrame:
         raise NotImplementedError('Loading matrices is not supported for the remote API, use the `matrix` parameter '
                                   'in the `find` method instead.')
+
+    def get_data_loader(self) -> PyComDataLoader:
+        raise NotImplementedError('Loading additional data is not supported for the remote API, use local instead.')

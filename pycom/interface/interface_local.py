@@ -5,6 +5,7 @@ import pandas as pd
 from pycom.interface import PyCom
 
 import pycom.interface._find_helper as fh
+from pycom.interface.data_loader import PyComDataLoader
 from pycom.selector import MatrixFormat
 from pycom.interface.query_helper import query_database
 from pycom.util.format_util import user_path
@@ -98,7 +99,7 @@ class PyComLocal(PyCom):
         :param enzyme: Enzyme Commission number of the protein. ( '3.40.50.360' or '3.40.*.*' or '3.*' ).
         :param has_substrate: Whether the protein has a known substrate. (True/False)
         :param has_ptm: Whether the protein has a known post-translational modification. (True/False)
-        :param has_pbd: Whether the protein has a known PDB structure. (True/False)
+        :param has_pdb: Whether the protein has a known PDB structure. (True/False)
         :param disease: The disease associated with the protein. (name of disease, case-insensitive [e.g 'cancer'])
         :param disease_id: The ID of the disease associated with the protein. ('DI-00001', get_disease_list()
         :param has_disease: Whether the protein is associated with a disease. (True/False)
@@ -192,3 +193,11 @@ class PyComLocal(PyCom):
         """
         query = "SELECT organismId, nameScientific, nameCommon, taxonomy FROM organism"
         return query_database(query, self.db_path)
+
+    def get_data_loader(self) -> PyComDataLoader:
+        """
+        Returns the PyComDataLoader object that is used to load additional data into the dataframe.
+
+        :return: PyComDataLoader
+        """
+        return PyComDataLoader(self.db_path)

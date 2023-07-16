@@ -34,7 +34,7 @@ Supported parameters:
             enzyme: Optional[str] = None,
             has_substrate: Optional[bool] = None,
             has_ptm: Optional[bool] = None,
-            has_pbd: Optional[bool] = None,
+            has_pdb: Optional[bool] = None,
             disease: Optional[str] = None,
             disease_id: Optional[str] = None,
             has_disease: Optional[bool] = None,
@@ -61,7 +61,7 @@ Supported parameters:
     enzyme: The EC number of the protein.
     has_substrate: Whether the protein has a substrate.
     has_ptm: Whether the protein has a post-translational modification.
-    has_pbd: Whether the protein has a PDB structure.
+    has_pdb: Whether the protein has a PDB structure.
     disease: The name of the disease.
     disease_id: The ID of the disease.
     has_disease: Whether the protein has a disease.

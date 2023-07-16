@@ -7,7 +7,8 @@ with open('pycom/version.txt') as f:
 extras_require = {
     'flask': ['Flask'],
     'flask-caching': ['Flask-Caching'],
-    'flask-parameter-validation': ['Flask-Parameter-Validation']
+    'flask-parameter-validation': ['Flask-Parameter-Validation'],
+    'werkzeug': ['Werkzeug'],
 }
 
 setup(
@@ -15,7 +16,7 @@ setup(
     version=version,
     description='Library for interacting with the Pycom database of coevolution matrices of proteins',
     author='Phil',
-    url='https://github.com/cemiu/pycom',
+    url='https://github.com/scdantu/pycom',
     packages=find_packages(),
     install_requires=[
         'pandas',

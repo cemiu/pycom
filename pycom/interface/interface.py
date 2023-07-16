@@ -3,6 +3,7 @@ from typing import Optional
 
 import pandas as pd
 
+from pycom.interface.data_loader import PyComDataLoader
 from pycom.selector import MatrixFormat
 
 # supress SettingWithCopyWarning from pandas
@@ -102,7 +103,7 @@ class PyCom(object):
             enzyme: Optional[str] = None,
             has_substrate: Optional[bool] = None,
             has_ptm: Optional[bool] = None,
-            has_pbd: Optional[bool] = None,
+            has_pdb: Optional[bool] = None,
             disease: Optional[str] = None,
             disease_id: Optional[str] = None,
             has_disease: Optional[bool] = None,
@@ -146,7 +147,7 @@ class PyCom(object):
         :param enzyme: Enzyme Commission number of the protein. ( '3.40.50.360' or '3.40.*.*' or '3.*' ).
         :param has_substrate: Whether the protein has a known substrate. (True/False)
         :param has_ptm: Whether the protein has a known post-translational modification. (True/False)
-        :param has_pbd: Whether the protein has a known PDB structure. (True/False)
+        :param has_pdb: Whether the protein has a known PDB structure. (True/False)
         :param disease: The disease associated with the protein. (name of disease, case-insensitive [e.g 'cancer'])
         :param disease_id: The ID of the disease associated with the protein. ('DI-00001', get_disease_list()
         :param has_disease: Whether the protein is associated with a disease. (True/False)
@@ -228,5 +229,16 @@ class PyCom(object):
 
         Returns:
             List[str]: A list of organisms.
+        """
+        pass
+
+    @abstractmethod
+    def get_data_loader(self) -> PyComDataLoader:
+        """
+        Returns the PyComDataLoader object that is used to load additional data into the dataframe.
+
+        Not implemented in PyComRemote.
+
+        :return: PyComDataLoader
         """
         pass
