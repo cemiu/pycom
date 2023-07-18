@@ -69,8 +69,8 @@ class PyComLocal(PyCom):
         """
         Find proteins in the database that match the given criteria.
 
-        This function searches the database for proteins that match the given criteria. The criteria can be specified using
-        any combination of the parameters listed below.
+        This function searches the database for proteins that match the given criteria. The criteria can be specified
+        using any combination of the parameters listed below.
 
         Use either constraint_dict or the individual parameters, not both.
 
@@ -83,28 +83,9 @@ class PyComLocal(PyCom):
             >>> pyc = pyc.find({ProteinParams.DISEASE: 'cancer'})
 
         :param constraint_dict: A dictionary of constraints to apply to the search {ProteinParams: value}.
-        :param uniprot_id: The UniProt ID of the protein.
-        :param sequence: The amino acid sequence of protein to search for. (full match)
-        :param min_length: Minimum number of residues.
-        :param max_length: Maximum number of residues.
-        :param min_helix: Min percentage of helical structure in the protein.
-        :param max_helix: Max percentage of helical structure in the protein.
-        :param min_turn: Min percentage of turn structure in the protein.
-        :param max_turn: Max percentage of turn structure in the protein.
-        :param min_strand: Min percentage of beta strand structure in the protein.
-        :param max_strand: Max percentage of beta strand structure in the protein.
-        :param organism_id: NCBI Taxonomy ID of the genus / species of the protein. (get_organism_list())
-        :param organism: Taxonomic name of the genus / species of the protein. (case-insensitive, get_organism_list())
-        :param cath: CATH classification of the protein ( '3.40.50.360' or '3.40.*.*' or '3.*' ).
-        :param enzyme: Enzyme Commission number of the protein. ( '3.40.50.360' or '3.40.*.*' or '3.*' ).
-        :param has_substrate: Whether the protein has a known substrate. (True/False)
-        :param has_ptm: Whether the protein has a known post-translational modification. (True/False)
-        :param has_pdb: Whether the protein has a known PDB structure. (True/False)
-        :param disease: The disease associated with the protein. (name of disease, case-insensitive [e.g 'cancer'])
-        :param disease_id: The ID of the disease associated with the protein. ('DI-00001', get_disease_list()
-        :param has_disease: Whether the protein is associated with a disease. (True/False)
-        :param cofactor: The cofactor associated with the protein. (name of cofactor, case-insensitive [e.g 'Zn(2+)'])
-        :param cofactor_id: The ID of the cofactor associated with the protein. ('CHEBI:00001', get_cofactor_list())
+
+        See pycom.PyCom.find() for a list of valid parameters.
+
         :return: A pandas DataFrame containing the proteins that match the given criteria.
         """
         # validate the parameters

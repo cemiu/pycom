@@ -62,7 +62,6 @@ class PyComDataLoader:
         """
         self.db_path = db_path
 
-
     def _execute_query(self, query: str) -> pd.DataFrame:
         """Helper method to execute a query and return a DataFrame."""
         with sqlite3.connect(self.db_path) as conn:

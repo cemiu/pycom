@@ -29,7 +29,7 @@ class PyComRemote(PyCom):
 
     """
 
-    def __init__(self, remote: bool = True):
+    def __init__(self, remote: bool = True):  # noqa
         self.base_url = 'https://pycom.brunel.ac.uk/api'
 
     def _get_url(self, endpoint: str) -> str:
