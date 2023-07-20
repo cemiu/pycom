@@ -28,7 +28,9 @@ _find_helper.query_db = cache.memoize(cache_none=True)(_find_helper.query_db)
 
 pycom_db_path = os.environ.get('PYCOM_DB_PATH', '~/docs/pycom.db')
 pycom_mat_path = os.environ.get('PYCOM_MAT_PATH', '~/docs/pycom.mat')
-pycom_aln_path = os.environ.get('PYCOM_ALN_PATH', '~/docs/aln')
+
+# @deprecated
+# pycom_aln_path = os.environ.get('PYCOM_ALN_PATH', '~/docs/aln')
 
 pyc = PyCom(db_path=pycom_db_path, mat_path=pycom_mat_path)
 valid_protein_params = set(ProteinParams)
@@ -36,7 +38,7 @@ valid_protein_params = set(ProteinParams)
 
 @app.route('/api/', methods=['GET'])
 def landing():
-    raise AssertionError('/api is not an endpoint. Try /api/find, /api/alignments, /api/get-disease-list, '
+    raise AssertionError('/api is not an endpoint. Try /api/find, /api/get-disease-list, '
                          '/api/get-cofactor-list, or /api/get-organism-list')
 
 
@@ -99,34 +101,6 @@ def find(
     return response
 
 
-@app.route('/api/alignments', methods=['GET'])
-def get_alignments_no_arg():
-    assert flask.request.data not in {b'', None}, \
-        'Please specify a uniprot_id: https://pycom.brunel.ac.uk/alignments/<uniprot_id>'
-
-    data_json = flask.request.get_json(force=True, silent=True)
-    assert data_json is not None, 'Invalid JSON body'
-    assert 'uniprot_id' in data_json, 'Specify the uniprot_id: {"uniprot_id": "P12345"}'
-
-    uniprot_id = data_json.get('uniprot_id', None)
-    return get_alignments(uniprot_id)
-
-
-@app.route('/api/alignments/<uniprot_id>/', methods=['GET'])
-def get_alignments(uniprot_id):
-    """
-    Get alignments for a given uniprot_id
-
-    :param uniprot_id:
-    :return: alignment file
-    """
-    # assert that file exists
-    aln_path = safe_join(pycom_aln_path, f'{uniprot_id}.aln')
-    assert aln_path is not None and os.path.isfile(aln_path), f'No alignments found for {uniprot_id}'
-
-    return flask.send_from_directory(pycom_aln_path, f'{uniprot_id}.aln', as_attachment=False)
-
-
 @app.route('/api/get-disease-list', methods=['GET'])
 def get_disease_list():
     """
@@ -158,6 +132,45 @@ def get_organism_list():
     """
     organisms = pyc.get_organism_list()
     return flask.jsonify(organisms.to_dict(orient='records'))
+
+
+@deprecated
+# @app.route('/api/alignments/<uniprot_id>/', methods=['GET'])
+def get_alignments(uniprot_id):
+    """
+    Get alignments for a given uniprot_id.
+
+    Deprecated, because of non-easily solvable issues with rediction to localhost/$path.
+    Use https://pycom.brunel.ac.uk/alignments/{uniprot_id}.aln instead.
+
+    :param uniprot_id:
+    :return: alignment file
+    """
+    # assert that file exists
+    pycom_aln_path = os.environ.get('PYCOM_ALN_PATH', '~/docs/aln')
+
+    aln_path = safe_join(pycom_aln_path, f'{uniprot_id}.aln')
+    assert aln_path is not None and os.path.isfile(aln_path), f'No alignments found for {uniprot_id}'
+
+    return flask.send_from_directory(pycom_aln_path, f'{uniprot_id}.aln', as_attachment=False)
+
+
+@deprecated
+# @app.route('/api/alignments', methods=['GET'])
+def get_alignments_no_arg():
+    """
+    This method is deprecated. See get_alignments for more information.
+    :return:
+    """
+    assert flask.request.data not in {b'', None}, \
+        'Please specify a uniprot_id: https://pycom.brunel.ac.uk/alignments/<uniprot_id>'
+
+    data_json = flask.request.get_json(force=True, silent=True)
+    assert data_json is not None, 'Invalid JSON body'
+    assert 'uniprot_id' in data_json, 'Specify the uniprot_id: {"uniprot_id": "P12345"}'
+
+    uniprot_id = data_json.get('uniprot_id', None)
+    return get_alignments(uniprot_id)
 
 
 @app.errorhandler(AssertionError)
