@@ -218,7 +218,7 @@ def handle_assertion_error(error):
     with a 400 status code and a link to the documentation."""
     return flask.jsonify({
         'message': str(error),
-        'documentation': 'TODO: add documentation link here'  # TODO
+        'documentation': 'https://pycom.brunel.ac.uk/api/spec/'
     }), 400
 
 

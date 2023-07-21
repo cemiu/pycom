@@ -84,7 +84,7 @@ class PyComDataLoader:
         """
         return self._add_data(df, query, force_single_entry)
 
-    def add_cath_class(self, df: pd.DataFrame, force_single_entry: bool = True) -> pd.DataFrame:  # TODO refactor
+    def add_cath_class(self, df: pd.DataFrame, force_single_entry: bool = True) -> pd.DataFrame:
         """Adds CATH classification data to the DataFrame."""
         query = """
             SELECT
