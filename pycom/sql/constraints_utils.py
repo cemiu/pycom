@@ -48,6 +48,20 @@ cofactor_constraint = lambda _: '''
     )'''
 
 
+has_keyword_constraint = lambda keyword_category: f'''
+    entry.entryId IN (
+        SELECT keyword_entry.entryId
+        FROM keyword_entry
+        WHERE keyword_entry.keywordCategory = '{keyword_category}'
+    )'''
+
+keyword_constraint = lambda keyword_category: f'''
+    entry.entryId IN (
+        SELECT keyword_entry.entryId
+        FROM keyword_entry
+        WHERE lower(keyword_entry.keyword) LIKE lower(?)
+        AND keyword_entry.keywordCategory = '{keyword_category}'''
+
 _CATH_ENZYME_ERROR = 'CATH/Enzyme class must be in format: 1.2.3.4 or 1.2.*.*'
 
 

@@ -1,4 +1,3 @@
-
 from enum import Enum
 
 
@@ -24,7 +23,6 @@ class ProteinParams(str, Enum):
     ENZYME = 'enzyme'
 
     HAS_SUBSTRATE = 'has_substrate'
-    HAS_PTM = 'has_ptm'
 
     HAS_PDB = 'has_pdb'
 
@@ -35,13 +33,18 @@ class ProteinParams(str, Enum):
     COFACTOR = 'cofactor'
     COFACTOR_ID = 'cofactor_id'
 
+    HAS_PTM = 'has_ptm'
+
+    BIOLOGICAL_PROCESS = 'biological_process'
+    CELLULAR_COMPONENT = 'cellular_component'
+    DEVELOPMENTAL_STAGE = 'developmental_stage'
+    DOMAIN = 'domain'
+    LIGAND = 'ligand'
+    MOLECULAR_FUNCTION = 'molecular_function'
+    PTM = 'ptm'
+
     def description(self):
         return descriptions[self]
-
-    # cofactors
-
-    # keywords?
-    # substrates / rheaIDs?
 
 
 descriptions = {
@@ -60,7 +63,6 @@ descriptions = {
     ProteinParams.CATH: 'CATH classification of the protein ( \'3.40.50.360\' or \'3.40.*.*\' or \'3.*\' ).',
     ProteinParams.ENZYME: 'Enzyme Commission number of the protein. ( \'3.40.50.360\' or \'3.40.*.*\' or \'3.*\' ).',
     ProteinParams.HAS_SUBSTRATE: 'Whether the protein has a known substrate. (True/False)',
-    ProteinParams.HAS_PTM: 'Whether the protein has a known post-translational modification. (True/False)',
     ProteinParams.HAS_PDB: 'Whether the protein has a known PDB structure. (True/False)',
     ProteinParams.DISEASE: 'The disease associated with the protein. (name of disease, case insensitive '
                            '[e.g \'cancer\'])',
@@ -70,6 +72,27 @@ descriptions = {
                             '[e.g \'Zn(2+)\'])',
     ProteinParams.COFACTOR_ID: 'The ID of the cofactor associated with the protein. '
                                '(\'CHEBI:00001\', get_cofactor_list()',
+
+    ProteinParams.HAS_PTM: 'Whether the protein has a known post-translational modification. (True/False)',
+
+    ProteinParams.BIOLOGICAL_PROCESS: 'The biological process associated with the protein. (name of biological '
+                                      'process, case insensitive [e.g \'antiviral defense\'], '
+                                      'get_biological_process_list()',
+    ProteinParams.CELLULAR_COMPONENT: 'The cellular component associated with the protein. (name of cellular '
+                                      'component, case insensitive [e.g \'nucleus\'], get_cellular_component_list()',
+    ProteinParams.DEVELOPMENTAL_STAGE: 'The developmental stage associated with the protein. (name of developmental '
+                                       'stage, case insensitive [e.g \'early protein\'], '
+                                       'get_developmental_stage_list())',
+    ProteinParams.DOMAIN: 'The domain associated with the protein. (name of domain, case insensitive '
+                          '[e.g \'zinc-finger\'], get_domain_list())',
+    ProteinParams.LIGAND: 'The ligand associated with the protein. (name of ligand, case insensitive '
+                          '[e.g \'zinc\'], get_ligand_list())',
+    ProteinParams.MOLECULAR_FUNCTION: 'The molecular function associated with the protein. (name of molecular '
+                                      'function, case insensitive [e.g \'antioxidant activity\'], '
+                                      'get_molecular_function_list())',
+    ProteinParams.PTM: 'The post-translational modification associated with the protein. (name of PTM, case '
+                       'insensitive [e.g \'phosphoprotein\'], get_ptm_list())'
+
 }
 
 assert set(descriptions.keys()) == set(ProteinParams), 'Descriptions missing for some ProteinParams'

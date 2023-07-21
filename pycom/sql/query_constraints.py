@@ -89,7 +89,7 @@ _constraints_special = {
     },
     ProteinParams.DISEASE: {  # disease name
         'constraint': disease_constraint,
-        'param': lambda x: f'%{x}%',  # add wildcards
+        'param': lambda x: f'%{x}%'.lower(),  # add wildcards
     },
     ProteinParams.DISEASE_ID: {  # disease id
         'constraint': disease_id_constraint,
@@ -101,7 +101,7 @@ _constraints_special = {
     },
     ProteinParams.COFACTOR: {  # cofactor name
         'constraint': cofactor_constraint,
-        'param': lambda x: f'%{x}%',  # add wildcards
+        'param': lambda x: f'%{x}%'.lower(),  # add wildcards
     },
     ProteinParams.COFACTOR_ID: {  # cofactor id
         'constraint': cofactor_id_constraint,
@@ -109,8 +109,40 @@ _constraints_special = {
     },
 }
 
+_constraints_keyword_based = {
+    ProteinParams.BIOLOGICAL_PROCESS: {  # biological process
+        'constraint': partial(keyword_constraint, keyword_category='Biological process'),
+        'param': lambda x: f'%{x}%'.lower(),  # add wildcards
+    },
+    ProteinParams.CELLULAR_COMPONENT: {  # cellular component
+        'constraint': partial(keyword_constraint, keyword_category='Cellular component'),
+        'param': lambda x: f'%{x}%'.lower(),  # add wildcards
+    },
+    ProteinParams.DEVELOPMENTAL_STAGE: {  # developmental stage
+        'constraint': partial(keyword_constraint, keyword_category='Developmental stage'),
+        'param': lambda x: f'%{x}%'.lower(),  # add wildcards
+    },
+    ProteinParams.DOMAIN: {  # domain
+        'constraint': partial(keyword_constraint, keyword_category='Domain'),
+        'param': lambda x: f'%{x}%'.lower(),  # add wildcards
+    },
+    ProteinParams.LIGAND: {  # ligand
+        'constraint': partial(keyword_constraint, keyword_category='Ligand'),
+        'param': lambda x: f'%{x}%'.lower(),  # add wildcards
+    },
+    ProteinParams.MOLECULAR_FUNCTION: {  # molecular function
+        'constraint': partial(keyword_constraint, keyword_category='Molecular function'),
+        'param': lambda x: f'%{x}%'.lower(),  # add wildcards
+    },
+    ProteinParams.PTM: {  # post-translational modification
+        'constraint': partial(keyword_constraint, keyword_category='PTM'),
+        'param': lambda x: f'%{x}%'.lower(),  # add wildcards
+    }
+}
+
 # merge all constraints into the final list
-constraints_template = {**_constraints_simple, **_constraints_struct, **_constraints_special}
+constraints_template = {**_constraints_simple, **_constraints_struct, **_constraints_special,
+                        **_constraints_keyword_based}
 
 # check that all constraints are implemented
 assert set(constraints_template.keys()) == set(ProteinParams), 'Not all query constraints are implemented'

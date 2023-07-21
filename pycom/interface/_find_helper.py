@@ -90,6 +90,7 @@ class CoevolutionMatrixLoader:
     ):
         self.matrix_path = matrix_path
         self.mat_db: h5py.File = h5py.File(matrix_path, 'r')
+        # noinspection PyTypeChecker
         self.mat_formatter: Callable = mat_format
 
     def load_coevolution_matrix(self, sequence: str) -> Optional[pd.DataFrame]:
@@ -99,6 +100,7 @@ class CoevolutionMatrixLoader:
         md5 = md5_hash(sequence)
 
         try:
+            # noinspection PyCallingNonCallable
             return self.mat_formatter(self.mat_db[md5][:])
         except KeyError:
             return None
