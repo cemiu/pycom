@@ -94,8 +94,6 @@ class PyComLocal(PyCom):
         # build the query
         query, params = fh.build_query_from_constraints(**constraints)
 
-        print(query)
-
         query_result: pd.DataFrame = fh.query_db(db_path=self.db_path, query=query, params=params)
         query_result['matrix'] = pd.Series([None] * len(query_result), dtype='object')
 
