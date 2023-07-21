@@ -222,5 +222,15 @@ def handle_assertion_error(error):
     }), 400
 
 
+@app.errorhandler(404)
+def handle_404(_):
+    """Catch 404 errors and return them as JSON,
+    with a 404 status code and a link to the documentation."""
+    return flask.jsonify({
+        'message': 'The requested API endpoint does not exist. Please check the documentation for valid endpoints.',
+        'documentation': 'https://pycom.brunel.ac.uk/api/spec/'
+    }), 404
+
+
 if __name__ == '__main__':
     app.run(debug=False, port=5351)
