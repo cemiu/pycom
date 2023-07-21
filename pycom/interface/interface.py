@@ -109,6 +109,14 @@ class PyCom(object):
             has_disease: Optional[bool] = None,
             cofactor: Optional[str] = None,
             cofactor_id: Optional[str] = None,
+            biological_process: Optional[str] = None,
+            cellular_component: Optional[str] = None,
+            developmental_stage: Optional[str] = None,
+            domain: Optional[str] = None,
+            ligand: Optional[str] = None,
+            molecular_function: Optional[str] = None,
+            ptm: Optional[str] = None,
+
             page: Optional[int] = None,
             per_page: Optional[int] = None,
             matrix: Optional[bool] = None,
@@ -153,6 +161,20 @@ class PyCom(object):
         :param has_disease: Whether the protein is associated with a disease. (True/False)
         :param cofactor: The cofactor associated with the protein. (name of cofactor, case-insensitive [e.g 'Zn(2+)'])
         :param cofactor_id: The ID of the cofactor associated with the protein. ('CHEBI:00001', get_cofactor_list())
+        :param biological_process: The biological process associated with the protein.
+               (name of process, case-insensitive, get_biological_process_list())
+        :param cellular_component: The cellular component associated with the protein.
+               (name of component, case-insensitive, get_cellular_component_list())
+        :param developmental_stage: The developmental stage associated with the protein.
+               (name of stage, case-insensitive, get_developmental_stage_list())
+        :param domain: The domain associated with the protein.
+               (name of domain, case-insensitive, get_domain_list())
+        :param ligand: The ligand associated with the protein.
+               (name of ligand, case-insensitive, get_ligand_list())
+        :param molecular_function: The molecular function associated with the protein.
+               (name of function, case-insensitive, get_molecular_function_list())
+        :param ptm: The post-translational modification associated with the protein.
+               (name of ptm, case-insensitive, get_ptm_list())
 
         (specific to PyComRemote)
         :param page: The page number of results to return. (1-i)

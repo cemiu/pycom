@@ -48,7 +48,8 @@ def find(
         # Search parameters:
         # uniprot_id, sequence, min_length, max_length, min_helix, max_helix, min_turn, max_turn, min_strand,
         # max_strand, organism_id, organism, cath, enzyme, has_substrate, has_ptm, has_pdb, disease, disease_id,
-        # has_disease, cofactor, cofactor_id, has_cofactor
+        # has_disease, cofactor, cofactor_id, has_cofactor, biological_process, cellular_component,
+        # developmental_stage, domain, ligand, molecular_function, ptm
 
         # Output parameters:
         # matrix, page, per_page

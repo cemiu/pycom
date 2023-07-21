@@ -92,7 +92,6 @@ descriptions = {
                                       'get_molecular_function_list())',
     ProteinParams.PTM: 'The post-translational modification associated with the protein. (name of PTM, case '
                        'insensitive [e.g \'phosphoprotein\'], get_ptm_list())'
-
 }
 
 assert set(descriptions.keys()) == set(ProteinParams), 'Descriptions missing for some ProteinParams'
