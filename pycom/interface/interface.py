@@ -203,36 +203,6 @@ class PyCom(object):
         pass
 
     @abstractmethod
-    def get_disease_list(self) -> pd.DataFrame:
-        """
-        Retrieves the list of all diseases in the database.
-
-        Returns:
-            List[str]: A list of diseases.
-        """
-        pass
-
-    @abstractmethod
-    def get_cofactor_list(self) -> pd.DataFrame:
-        """
-        Retrieves the list of all cofactors in the database.
-
-        Returns:
-            List[str]: A list of cofactors.
-        """
-        pass
-
-    @abstractmethod
-    def get_organism_list(self):
-        """
-        Retrieves the list of all organisms in the database.
-
-        Returns:
-            List[str]: A list of organisms.
-        """
-        pass
-
-    @abstractmethod
     def get_data_loader(self) -> PyComDataLoader:
         """
         Returns the PyComDataLoader object that is used to load additional data into the dataframe.
@@ -241,4 +211,54 @@ class PyCom(object):
 
         :return: PyComDataLoader
         """
+        pass
+
+    @abstractmethod
+    def get_disease_list(self) -> pd.DataFrame:
+        """Retrieves the list of all diseases in the database."""
+        pass
+
+    @abstractmethod
+    def get_cofactor_list(self) -> pd.DataFrame:
+        """Retrieves the list of all cofactors in the database."""
+        pass
+
+    @abstractmethod
+    def get_organism_list(self) -> pd.DataFrame:
+        """Retrieves the list of all organisms in the database."""
+        pass
+
+    @abstractmethod
+    def get_biological_process_list(self):
+        """Retrieves the list of all biological processes in the database."""
+        pass
+
+    @abstractmethod
+    def get_cellular_component_list(self):
+        """Retrieves the list of all cellular components in the database."""
+        pass
+
+    @abstractmethod
+    def get_developmental_stage_list(self):
+        """Retrieves the list of all developmental stages in the database."""
+        pass
+
+    @abstractmethod
+    def get_domain_list(self):
+        """Retrieves the list of all domains in the database."""
+        pass
+
+    @abstractmethod
+    def get_ligand_list(self):
+        """Retrieves the list of all ligands in the database."""
+        pass
+
+    @abstractmethod
+    def get_molecular_function_list(self):
+        """Retrieves the list of all molecular functions in the database."""
+        pass
+
+    @abstractmethod
+    def get_ptm_list(self):
+        """Retrieves the list of all post-translational modifications in the database."""
         pass

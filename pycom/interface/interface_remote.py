@@ -105,49 +105,54 @@ class PyComRemote(PyCom):
         return res
 
     def get_disease_list(self) -> pd.DataFrame:
-        """
-        Fetches disease data from the 'get-disease-list' endpoint as a pandas DataFrame.
-
-        Returns:
-            pandas.DataFrame: DataFrame containing the disease data.
-
-        """
+        """Fetches disease data from the 'get-disease-list' endpoint as a pandas DataFrame."""
         response = self._make_request('get-disease-list')
-
-        if len(response) == 0:
-            return pd.DataFrame()  # Return empty DataFrame if there are no results.
-
-        return pd.DataFrame(response)
+        return _return_non_empty_df(response)
 
     def get_cofactor_list(self) -> pd.DataFrame:
-        """
-        Fetches cofactor data from the 'get-cofactor-list' endpoint as a pandas DataFrame.
-
-        Returns:
-            pandas.DataFrame: DataFrame containing the cofactor data.
-
-        """
+        """Fetches cofactor data from the 'get-cofactor-list' endpoint as a pandas DataFrame."""
         response = self._make_request('get-cofactor-list')
-
-        if len(response) == 0:
-            return pd.DataFrame()  # Return empty DataFrame if there are no results.
-
-        return pd.DataFrame(response)
+        return _return_non_empty_df(response)
 
     def get_organism_list(self) -> pd.DataFrame:
-        """
-        Fetches organism data from the 'get-organism-list' endpoint as a pandas DataFrame.
-
-        Returns:
-            pandas.DataFrame: DataFrame containing the organism data.
-
-        """
+        """Fetches organism data from the 'get-organism-list' endpoint as a pandas DataFrame."""
         response = self._make_request('get-organism-list')
+        return _return_non_empty_df(response)
 
-        if len(response) == 0:
-            return pd.DataFrame()  # Return empty DataFrame if there are no results.
+    def get_biological_process_list(self):
+        """Fetches biological process data from the 'get-biological-process-list' endpoint as a pandas DataFrame."""
+        response = self._make_request('get-biological-process-list')
+        return _return_non_empty_df(response)
 
-        return pd.DataFrame(response)
+    def get_cellular_component_list(self):
+        """Fetches cellular component data from the 'get-cellular-component-list' endpoint as a pandas DataFrame."""
+        response = self._make_request('get-cellular-component-list')
+        return _return_non_empty_df(response)
+
+    def get_developmental_stage_list(self):
+        """Fetches developmental stage data from the 'get-developmental-stage-list' endpoint as a pandas DataFrame."""
+        response = self._make_request('get-developmental-stage-list')
+        return _return_non_empty_df(response)
+
+    def get_domain_list(self):
+        """Fetches domain data from the 'get-domain-list' endpoint as a pandas DataFrame."""
+        response = self._make_request('get-domain-list')
+        return _return_non_empty_df(response)
+
+    def get_ligand_list(self):
+        """Fetches ligand data from the 'get-ligand-list' endpoint as a pandas DataFrame."""
+        response = self._make_request('get-ligand-list')
+        return _return_non_empty_df(response)
+
+    def get_molecular_function_list(self):
+        """Fetches molecular function data from the 'get-molecular-function-list' endpoint as a pandas DataFrame."""
+        response = self._make_request('get-molecular-function-list')
+        return _return_non_empty_df(response)
+
+    def get_ptm_list(self):
+        """Fetches PTM data from the 'get-ptm-list' endpoint as a pandas DataFrame."""
+        response = self._make_request('get-ptm-list')
+        return _return_non_empty_df(response)
 
     @staticmethod
     def paginate(*_, **__) -> pd.DataFrame:
@@ -160,3 +165,10 @@ class PyComRemote(PyCom):
 
     def get_data_loader(self) -> PyComDataLoader:
         raise NotImplementedError('Loading additional data is not supported for the remote API, use local instead.')
+
+
+def _return_non_empty_df(response) -> pd.DataFrame:
+    """Helper function that returns an empty DataFrame if the response is empty."""
+    if len(response) == 0:
+        return pd.DataFrame()
+    return pd.DataFrame(response)

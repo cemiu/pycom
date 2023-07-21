@@ -145,36 +145,6 @@ class PyComLocal(PyCom):
             raise ValueError(f'Pagination starts at 1, not {page}')
         return df.iloc[(page - 1) * per_page:page * per_page]
 
-    def get_disease_list(self) -> pd.DataFrame:
-        """
-        Retrieves the list of all diseases in the database.
-
-        Returns:
-            List[str]: A list of diseases.
-        """
-        query = "SELECT diseaseId, diseaseName FROM disease"
-        return query_database(query, self.db_path)
-
-    def get_cofactor_list(self) -> pd.DataFrame:
-        """
-        Retrieves the list of all cofactors in the database.
-
-        Returns:
-            List[str]: A list of cofactors.
-        """
-        query = "SELECT cofactorId, cofactorName FROM cofactor"
-        return query_database(query, self.db_path)
-
-    def get_organism_list(self):
-        """
-        Retrieves the list of all organisms in the database.
-
-        Returns:
-            List[str]: A list of organisms.
-        """
-        query = "SELECT organismId, nameScientific, nameCommon, taxonomy FROM organism"
-        return query_database(query, self.db_path)
-
     def get_data_loader(self) -> PyComDataLoader:
         """
         Returns the PyComDataLoader object that is used to load additional data into the dataframe.
@@ -182,3 +152,62 @@ class PyComLocal(PyCom):
         :return: PyComDataLoader
         """
         return PyComDataLoader(self.db_path)
+
+    def get_disease_list(self) -> pd.DataFrame:
+        """Retrieves the list of all diseases in the database."""
+        query = "SELECT diseaseId, diseaseName FROM disease"
+        return query_database(query, self.db_path)
+
+    def get_cofactor_list(self) -> pd.DataFrame:
+        """Retrieves the list of all cofactors in the database."""
+        query = "SELECT cofactorId, cofactorName FROM cofactor"
+        return query_database(query, self.db_path)
+
+    def get_organism_list(self) -> pd.DataFrame:
+        """Retrieves the list of all organisms in the database."""
+        query = "SELECT organismId, nameScientific, nameCommon, taxonomy FROM organism"
+        return query_database(query, self.db_path)
+
+    def get_biological_process_list(self) -> pd.DataFrame:
+        query = "SELECT keywordName as name FROM keyword WHERE keywordCategory = 'Biological process'"
+        return query_database(query, self.db_path)
+
+    def get_cellular_component_list(self) -> pd.DataFrame:
+        query = "SELECT keywordName as name FROM keyword WHERE keywordCategory = 'Cellular component'"
+        return query_database(query, self.db_path)
+
+    def get_developmental_stage_list(self) -> pd.DataFrame:
+        query = "SELECT keywordName as name FROM keyword WHERE keywordCategory = 'Developmental stage'"
+        return query_database(query, self.db_path)
+
+    def get_domain_list(self) -> pd.DataFrame:
+        query = "SELECT keywordName as name FROM keyword WHERE keywordCategory = 'Domain'"
+        return query_database(query, self.db_path)
+
+    def get_ligand_list(self) -> pd.DataFrame:
+        query = "SELECT keywordName as name FROM keyword WHERE keywordCategory = 'Ligand'"
+        return query_database(query, self.db_path)
+
+    def get_molecular_function_list(self) -> pd.DataFrame:
+        query = "SELECT keywordName as name FROM keyword WHERE keywordCategory = 'Molecular function'"
+        return query_database(query, self.db_path)
+
+    def get_ptm_list(self) -> pd.DataFrame:
+        query = "SELECT keywordName as name FROM keyword WHERE keywordCategory = 'PTM'"
+        return query_database(query, self.db_path)
+
+
+if __name__ == '__main__':
+    # get_developmental_stage_list
+    # get_domain_list
+    # get_ligand_list
+    # get_molecular_function_list
+    # get_ptm_list
+    pyc = PyComLocal(db_path='~/docs/pycom.db', mat_path='pycom.mat')
+    print(pyc.get_biological_process_list())
+    print(pyc.get_cellular_component_list())
+    print(pyc.get_developmental_stage_list())
+    print(pyc.get_domain_list())
+    print(pyc.get_ligand_list())
+    print(pyc.get_molecular_function_list())
+    print(pyc.get_ptm_list())

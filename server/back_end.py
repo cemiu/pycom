@@ -4,8 +4,6 @@ import flask
 from flask_caching import Cache
 from flask_parameter_validation import ValidateParameters, Query
 
-from werkzeug.security import safe_join
-
 from pycom import PyCom, ProteinParams
 from pycom.interface import _find_helper  # noqa
 from pycom.selector import MatrixFormat
@@ -39,7 +37,9 @@ valid_protein_params = set(ProteinParams)
 @app.route('/api/', methods=['GET'])
 def landing():
     raise AssertionError('/api is not an endpoint. Try /api/find, /api/get-disease-list, '
-                         '/api/get-cofactor-list, or /api/get-organism-list')
+                         '/api/get-cofactor-list, /api/get-organism-list, /api/get-biological-process-list, '
+                         '/api/get-cellular-component-list, /api/get-development-stage-list, /api/get-domain-list, '
+                         '/api/get-ligand-list, /api/get-molecular-function-list, /api/get-ptm-list')
 
 
 @app.route('/api/find', methods=['GET'])
@@ -132,6 +132,83 @@ def get_organism_list():
     """
     organisms = pyc.get_organism_list()
     return flask.jsonify(organisms.to_dict(orient='records'))
+
+
+@app.route('/api/get-biological-process-list', methods=['GET'])
+def get_biological_process_list():
+    """
+    Get list of biological processes
+
+    :return: list of biological processes
+    """
+    biological_processes = pyc.get_biological_process_list()
+    return flask.jsonify(biological_processes.to_dict(orient='records'))
+
+
+@app.route('/api/get-cellular-component-list', methods=['GET'])
+def get_cellular_component_list():
+    """
+    Get list of cellular components
+
+    :return: list of cellular components
+    """
+    cellular_components = pyc.get_cellular_component_list()
+    return flask.jsonify(cellular_components.to_dict(orient='records'))
+
+
+@app.route('/api/get-development-stage-list', methods=['GET'])
+def get_development_stage_list():
+    """
+    Get list of development stages
+
+    :return: list of development stages
+    """
+    development_stages = pyc.get_developmental_stage_list()
+    return flask.jsonify(development_stages.to_dict(orient='records'))
+
+
+@app.route('/api/get-domain-list', methods=['GET'])
+def get_domain_list():
+    """
+    Get list of domains
+
+    :return: list of domains
+    """
+    domains = pyc.get_domain_list()
+    return flask.jsonify(domains.to_dict(orient='records'))
+
+
+@app.route('/api/get-ligand-list', methods=['GET'])
+def get_ligand_list():
+    """
+    Get list of ligands
+
+    :return: list of ligands
+    """
+    ligands = pyc.get_ligand_list()
+    return flask.jsonify(ligands.to_dict(orient='records'))
+
+
+@app.route('/api/get-molecular-function-list', methods=['GET'])
+def get_molecular_function_list():
+    """
+    Get list of molecular functions
+
+    :return: list of molecular functions
+    """
+    molecular_functions = pyc.get_molecular_function_list()
+    return flask.jsonify(molecular_functions.to_dict(orient='records'))
+
+
+@app.route('/api/get-ptm-list', methods=['GET'])
+def get_ptm_list():
+    """
+    Get list of PTMs
+
+    :return: list of PTMs
+    """
+    ptms = pyc.get_ptm_list()
+    return flask.jsonify(ptms.to_dict(orient='records'))
 
 
 @app.errorhandler(AssertionError)
