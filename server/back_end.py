@@ -227,7 +227,8 @@ def handle_404(_):
     """Catch 404 errors and return them as JSON,
     with a 404 status code and a link to the documentation."""
     return flask.jsonify({
-        'message': 'The requested API endpoint does not exist. Please check the documentation for valid endpoints.',
+        'message': 'The requested API endpoint does not exist. The main endpoint is '
+                   'https://pycom.brunel.ac.uk/api/find. For more information, see the documentation.',
         'documentation': 'https://pycom.brunel.ac.uk/api/spec/'
     }), 404
 
