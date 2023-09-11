@@ -23,13 +23,13 @@ https://pycom.brunel.ac.uk/downloads/
 
 ### Local Use
 
-Examples can be found in [example.ipynb](https://github.com/scdantu/pycom/blob/main/example.ipynb).
+Examples can be found in [example.ipynb](https://github.com/cemiu/pycom/blob/main/example.ipynb).
 This requires the `pycom.db` and `pycom.mat` files.
 
 ### Remote Library
 
 The library can be used remotely without downloading the `pycom.db` and `pycom.mat` files.
-A tutorial can be found in [example_remote.ipynb](https://github.com/scdantu/pycom/blob/main/example.ipynb).
+A tutorial can be found in [example_remote.ipynb](https://github.com/cemiu/pycom/blob/main/example.ipynb).
 
 ### API
 
