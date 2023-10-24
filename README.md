@@ -1,5 +1,21 @@
 # PyCom
 
+Python Library & server-side API for accessing the PyCom database.
+
+PyCom is an open-source, queryable database of Protein Residue-Residue Contacts (Coevolution Matrices) and annotation data derived from UniProt (Swiss-Prot to be precise!) using HHBlits/HHFilter/CCmpred.
+
+More info can be found here:
+
+[https://pycom.brunel.ac.uk/](https://pycom.brunel.ac.uk/)
+
+It was primarly developed by me over the summers of 2022/2023. My work was financed by two grants by the Dept. of CompSci at Brunel University London.
+
+## Archive
+
+This repo was used during development and now serves as an archive. The main repo can be found at: [https://github.com/scdantu/pycom](https://github.com/scdantu/pycom)
+
+The code for the creation of the database, that was deployed on the (Jade2)[https://www.jade.ac.uk/] HPC can be found at: [https://github.com/cemiu/pycom_generator](https://github.com/cemiu/pycom_generator)
+
 ## Installation
 
 Install the PyCom library with:
