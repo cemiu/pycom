@@ -1,3 +1,10 @@
+## Archive used during development
+
+This repo was used during the development of pycom. The current repo can be found at:
+
+### Current branch: [https://github.com/scdantu/pycom](https://github.com/scdantu/pycom)
+### Website: [https://pycom.brunel.ac.uk/](https://pycom.brunel.ac.uk/)
+
 # PyCom
 
 Python Library & server-side API for accessing the PyCom database.
